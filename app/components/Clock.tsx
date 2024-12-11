@@ -2,16 +2,18 @@
 
 import React from "react";
 import { useTimeUpdater } from "../hooks/useTimeUpdater";
+import { useWeather } from "../hooks/useWeather";
+import { useAqi } from "../hooks/useAqi";
 
 interface ClockProps {
   city: string;
   timezone: string;
-  aqi?: string;
-  temperature?: string;
 }
 
-export const Clock = ({ city, timezone, aqi, temperature }: ClockProps) => {
+export const Clock = ({ city, timezone }: ClockProps) => {
   const currentTime = useTimeUpdater(timezone);
+  const { temperature, loading, error } = useWeather(city)
+  const { aqi, loading: aqiLoading, error: aqiError } = useAqi(city);
 
   return (
     <div className="border p-4 rounded-lg shadow-md w-64 h-max text-center bg-gray-50">
